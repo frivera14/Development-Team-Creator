@@ -1,4 +1,6 @@
-const createPage = (data) => {
+module.exports = (templateData) => {
+
+  const { engineers, interns, manager} = templateData
     return `
     <!DOCTYPE html>
     <html lang="en">

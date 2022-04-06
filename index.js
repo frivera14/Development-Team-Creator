@@ -1,7 +1,7 @@
 const inquirer = require('inquirer')
 const fs = require('fs')
 
-const askManager = () => {
+const askManager = (managerData) => {
     return inquirer.prompt([
         {
             type: 'input',
@@ -38,8 +38,34 @@ const askManager = () => {
                     console.log('Please enter an email.')
                 } return false;
             }
-        }
+        },
+        {
+            type: 'input',
+            name: 'number',
+            message: "What is your office phone number?",
+            validate: numberInput => {
+                if (numberInput) {
+                    return true;
+                } else {
+                    console.log('Please enter a phone number.')
+                } return false;
+            }
+        },
+        {
+            type: 'confirm',
+            name: 'team',
+            message: "Would you like to start adding teammates?",
+            default: false
+        },
     ])
+    .then( (managerData) => {
+        if (managerData.team) {
+            console.log(managerData)
+            return askTeamType();
+        } else {
+            return console.log(manag)
+        }
+    })
 };
 
 const askTeamType = () => {
@@ -51,16 +77,20 @@ const askTeamType = () => {
             choices: ['Engineer', 'Intern']
         }
     ])
-    .then( () => {
-        if (this.choice === 'Engineer') {
-            return addEngineer();
-        } else {
-            return addIntern();
-        }
-    })
+        .then(({ role }) => {
+            if (role === 'Engineer') {
+                return addEngineer()
+            }
+            if (role === 'Intern') {
+                return addIntern()
+            } else {
+                console.log('Error')
+            }
+        })
 }
 
-const addEngineer = (engData) => {
+const addEngineer = engInfo => {
+
     return inquirer.prompt([
         {
             type: 'input',
@@ -117,16 +147,17 @@ const addEngineer = (engData) => {
             default: false
         }
     ])
-    .then(engData => {
-        if (another) {
-            return askTeamType();
-        } else {
-            return engData;
-        }
-    });
+        .then((newEng) => {
+            if (newEng.another) {
+                console.log(newEng)
+                return askTeamType();
+            } else {
+                return console.log(newEng);
+            }
+        });
 };
 
-const addIntern = (internData) => {
+const addIntern = internInfo => {
     return inquirer.prompt([
         {
             type: 'input',
@@ -183,14 +214,15 @@ const addIntern = (internData) => {
             default: false
         }
     ])
-    .then(internData => {
-        if (anotherIntern) {
-            return askTeamType();
-        } else {
-            return internData;
-        }
-    });
+        .then(internInfo => {
+            if (internInfo.anotherIntern) {
+                console.log(internInfo)
+                return askTeamType();
+            } else {
+                return console.log(internInfo);
+            }
+        });
 };
 
 askManager()
-    .then(askTeamType)
+
