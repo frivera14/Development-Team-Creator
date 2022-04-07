@@ -1,5 +1,7 @@
 const inquirer = require('inquirer')
 const fs = require('fs')
+let engineers = [];
+let interns = [];
 
 const askManager = (managerData) => {
     return inquirer.prompt([
@@ -73,7 +75,7 @@ const askTeamType = () => {
         {
             type: 'list',
             name: 'role',
-            message: "Select a team member's role to add.",
+            message: "Select a team member's role to add:",
             choices: ['Engineer', 'Intern']
         }
     ])
@@ -95,7 +97,7 @@ const addEngineer = engInfo => {
         {
             type: 'input',
             name: 'engName',
-            message: "Please add the engineer's name.",
+            message: "Please add the engineer's name:",
             validate: engNameInput => {
                 if (engNameInput) {
                     return true;
@@ -107,7 +109,7 @@ const addEngineer = engInfo => {
         {
             type: 'input',
             name: 'engId',
-            message: 'Please add an id number',
+            message: 'Please add an id number:',
             validate: engIdInput => {
                 if (engIdInput) {
                     return true;
@@ -119,7 +121,7 @@ const addEngineer = engInfo => {
         {
             type: 'input',
             name: 'engEmail',
-            message: 'Please add an email address',
+            message: 'Please add an email address:',
             validate: engEmailInput => {
                 if (engEmailInput) {
                     return true;
@@ -148,11 +150,11 @@ const addEngineer = engInfo => {
         }
     ])
         .then((newEng) => {
+            engineers.push(newEng)
             if (newEng.another) {
-                console.log(newEng)
                 return askTeamType();
             } else {
-                return console.log(newEng);
+                return console.log(engineers);
             }
         });
 };
@@ -162,7 +164,7 @@ const addIntern = internInfo => {
         {
             type: 'input',
             name: 'internName',
-            message: "Please add the intern's name.",
+            message: "Please add the intern's name:",
             validate: internNameInput => {
                 if (internNameInput) {
                     return true;
@@ -186,7 +188,7 @@ const addIntern = internInfo => {
         {
             type: 'input',
             name: 'engEmail',
-            message: 'Please add an email address',
+            message: 'Please add an email address:',
             validate: engEmailInput => {
                 if (engEmailInput) {
                     return true;
@@ -198,7 +200,7 @@ const addIntern = internInfo => {
         {
             type: 'input',
             name: 'school',
-            message: 'Please add the school whic the intern attends',
+            message: 'School which the intern attends:',
             validate: schoolInput => {
                 if (schoolInput) {
                     return true;
@@ -215,11 +217,11 @@ const addIntern = internInfo => {
         }
     ])
         .then(internInfo => {
+            interns.push(internInfo)
             if (internInfo.anotherIntern) {
-                console.log(internInfo)
                 return askTeamType();
             } else {
-                return console.log(internInfo);
+                return console.log(interns);
             }
         });
 };
