@@ -2,8 +2,9 @@ const inquirer = require('inquirer')
 const fs = require('fs')
 let engineers = [];
 let interns = [];
+let manager = [];
 
-const askManager = (managerData) => {
+const askManager = () => {
     return inquirer.prompt([
         {
             type: 'input',
@@ -61,14 +62,33 @@ const askManager = (managerData) => {
         },
     ])
     .then( (managerData) => {
+        manager.push(managerData)
         if (managerData.team) {
             console.log(managerData)
             return askTeamType();
         } else {
-            return console.log(manag)
+            return console.log(manager)
         }
     })
 };
+
+const askAnother = () => {
+    return inquirer.prompt([
+        {
+            type: 'confirm',
+            name: 'otro',
+            message: 'Would you like to add more team members?',
+            default: false
+        }
+    ])
+    .then(otroData => {
+        if (otroData.otro) {
+            return askTeamType();
+        } else {
+            return console.log(manager, engineers, interns)
+        }
+    })
+}
 
 const askTeamType = () => {
     return inquirer.prompt([
@@ -91,7 +111,7 @@ const askTeamType = () => {
         })
 }
 
-const addEngineer = engInfo => {
+const addEngineer = () => {
 
     return inquirer.prompt([
         {
@@ -142,24 +162,14 @@ const addEngineer = engInfo => {
                 } return false;
             }
         },
-        {
-            type: 'confirm',
-            name: 'another',
-            message: 'Would you like to add another team member?',
-            default: false
-        }
     ])
         .then((newEng) => {
             engineers.push(newEng)
-            if (newEng.another) {
-                return askTeamType();
-            } else {
-                return console.log(engineers);
-            }
+            return askAnother();
         });
 };
 
-const addIntern = internInfo => {
+const addIntern = () => {
     return inquirer.prompt([
         {
             type: 'input',
@@ -187,10 +197,10 @@ const addIntern = internInfo => {
         },
         {
             type: 'input',
-            name: 'engEmail',
+            name: 'internEmail',
             message: 'Please add an email address:',
-            validate: engEmailInput => {
-                if (engEmailInput) {
+            validate: internEmailInput => {
+                if (internEmailInput) {
                     return true;
                 } else {
                     console.log('Please enter an email.')
@@ -208,23 +218,14 @@ const addIntern = internInfo => {
                     console.log('Please enter a valid school.')
                 } return false;
             }
-        },
-        {
-            type: 'confirm',
-            name: 'anotherIntern',
-            message: 'Would you like to add another team member?',
-            default: false
         }
     ])
         .then(internInfo => {
             interns.push(internInfo)
-            if (internInfo.anotherIntern) {
-                return askTeamType();
-            } else {
-                return console.log(interns);
-            }
+            return askAnother();
         });
 };
 
 askManager()
 
+module.exports = {manager, interns, engineers}
