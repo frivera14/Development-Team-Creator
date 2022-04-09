@@ -5,9 +5,6 @@ const Intern = require('./lib/Intern');
 const Manager = require('./lib/Manager');
 const Employee = require('./lib/Employee');
 
-let engineers = [];
-let interns = [];
-let manager = [];
 
 const startTeam = () => {
     return inquirer.prompt([
@@ -18,12 +15,57 @@ const startTeam = () => {
 
         }
     ])
-    .then( () => {
-        return  Employee.getName();
-    }  )
 }
 
-startTeam();
+startTeam()
+.then( () => {
+    return  new Employee().getName();
+})
+.then(askRole)
+
+
+const getEmployee = () => {
+    return new Employee().getName()
+    .then(chooseRole)
+}
+
+
+async function askRole()  {
+    try {
+       new Employee
+    } catch (error) {
+        console.log(error)
+        
+    }
+    finally {
+         chooseRole();
+    }
+}
+
+const chooseRole = () => {
+    return inquirer.prompt([
+        {
+            type: 'list',
+            name: 'role',
+            message: "What is this employee's role?",
+            choices: ['Manager', 'Engineer', 'Intern']
+        }
+    ])
+    .then(({role}) => {
+        switch (role) {
+            case 'Manager':
+                return new Manager().getNumber()
+            case 'Engineer':
+                return new Engineer().getGithub()
+            case 'Intern':
+                return new Intern().getSchool()
+            default:
+                break;
+        }
+    })
+    .then(askAnother)
+}
+
 
 const askAnother = () => {
     return inquirer.prompt([
@@ -36,9 +78,9 @@ const askAnother = () => {
     ])
     .then(otroData => {
         if (otroData.otro) {
-            return new Employee().getName();
+            return getEmployee()
         } else {
-            return console.log(manager, engineers, interns)
+            return console.log()
         }
     })
 }
@@ -46,4 +88,4 @@ const askAnother = () => {
 
 
 
-module.exports = {manager, interns, engineers, askAnother}
+
