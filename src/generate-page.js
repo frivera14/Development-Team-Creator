@@ -1,7 +1,68 @@
-module.exports = (templateData) => {
 
-  const { engineers, interns, manager } = templateData
-  return `
+
+const makeManager = (bosses) => {
+    return ` 
+    ${bosses.map(({ name, id, email, number }) => {
+        return `
+<div class="card" style="width: 18rem;">
+<div class="card-header">
+        ${name} - Manager
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">ID: ${id}</li>
+        <li class="list-group-item">Email: ${email}</li>
+        <li class="list-group-item">Office Number: ${number}</li>
+    </ul>
+    </div>`
+    })
+            .join('')}
+    `
+}
+
+const makeEngineer = (engineers) => {
+    return `
+    ${engineers.map(({ name, id, email, engGit }) => {
+    return `
+    <div class="card" style="width: 18rem;">
+        <div class="card-header">
+            ${name} - Engineer
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">ID: ${id}</li>
+            <li class="list-group-item">Email: ${email}</li>
+            <li class="list-group-item">Github: ${engGit}</li>
+        </ul>
+    </div>
+    `
+}).join('')}
+    `
+
+}
+
+const makeInterns = (interns) => {
+    return `
+     
+    ${interns.map(({name, id, email, school}) => {
+    return`
+    <div class="card" style="width: 18rem;">
+    <div class="card-header">
+        ${name} - Intern
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">ID: ${id}</li>
+        <li class="list-group-item">Email: ${email}</li>
+        <li class="list-group-item">School: ${school}</li>
+    </ul>
+</div>
+    `
+})
+.join('')}
+    `
+}
+
+const createHTML = (bosses, engineers, interns) => {
+
+    return `
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,38 +82,9 @@ module.exports = (templateData) => {
 
     <main>
     <div class="container d-flex justify-content-evenly">
-    <div class="card" style="width: 18rem;">
-        <div class="card-header">
-            El Jefe
-        </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">ID:</li>
-            <li class="list-group-item">Email:</li>
-            <li class="list-group-item">Office Number:</li>
-        </ul>
-    </div>
-
-    <div class="card" style="width: 18rem;">
-        <div class="card-header">
-            El Que Jala
-        </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">ID:</li>
-            <li class="list-group-item">Email:</li>
-            <li class="list-group-item">Github:</li>
-        </ul>
-    </div>
-
-    <div class="card" style="width: 18rem;">
-        <div class="card-header">
-            El Que Trae el Cafe
-        </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">ID:</li>
-            <li class="list-group-item">Email:</li>
-            <li class="list-group-item">School:</li>
-        </ul>
-    </div>
+${makeManager(bosses)}
+${makeEngineer(engineers)}
+${makeInterns(interns)}
 </div>
 
     </main>
@@ -63,3 +95,5 @@ module.exports = (templateData) => {
 </html>
 `
 }
+
+module.exports = {createHTML} 
