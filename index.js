@@ -35,7 +35,7 @@ startTeam()
 
 const getEmployee = () => {
     return new Employee().getName()
-        .then(chooseRole())
+        .then(chooseRole)
 }
 
 

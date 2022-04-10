@@ -10,7 +10,7 @@ const makeManager = (bosses) => {
     </div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item">ID: ${id}</li>
-        <li class="list-group-item">Email: ${email}</li>
+        <li class="list-group-item">Email: <a href="mailto: ${email}">${email}</a></li>
         <li class="list-group-item">Office Number: ${number}</li>
     </ul>
     </div>`
@@ -29,8 +29,8 @@ const makeEngineer = (engineers) => {
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">ID: ${id}</li>
-            <li class="list-group-item">Email: ${email}</li>
-            <li class="list-group-item">Github: ${engGit}</li>
+            <li class="list-group-item">Email: <a href="mailto: ${email}">${email}</a></li>
+            <li class="list-group-item">Github: <a href="${engGit}" target="_blank">${engGit}</a></li>
         </ul>
     </div>
     `
@@ -50,7 +50,7 @@ const makeInterns = (interns) => {
     </div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item">ID: ${id}</li>
-        <li class="list-group-item">Email: ${email}</li>
+        <li class="list-group-item">Email: <a href="mailto: ${email}">${email}</a></li>
         <li class="list-group-item">School: ${school}</li>
     </ul>
 </div>
